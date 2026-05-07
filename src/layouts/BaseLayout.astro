@@ -229,7 +229,7 @@ const menuLinks = [
       const overlay = document.getElementById("menu-overlay");
 
       menuBtn.addEventListener("click", () => overlay.classList.add("show"));
-      overlay.addEventListener("click", (e) => {
+      overlay.addEventListener("click", (exx) => {
         if (e.target === overlay) overlay.classList.remove("show");
       });
       document.addEventListener("keydown", (e) => {

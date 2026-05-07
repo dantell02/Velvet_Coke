@@ -5,12 +5,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 <BaseLayout title="VELVET COKE">
   <!-- ─── MAIN PAGE ─────────────────────────────────────────── -->
   <div class="page">
-    <p class="subtitle">
-      — a multidisciplinary <span class="word-cycle"
-        ><span class="word-inner">blog</span></span
-      > —
-    </p>
-
     <p class="counter"><strong>0</strong> / 8 discovered</p>
 
     <!-- Grid left, discoveries panel right (stacks on mobile) -->
@@ -24,26 +18,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </div>
   </div>
 
-  <!-- ─── SCROLL SECTIONS ───────────────────────────────────── -->
-  <div class="scroll-sections">
-    <section class="scroll-section" id="section-video">
-      <video
-        src="/videos/teckdeck_pixelcrush.webm"
-        autoplay
-        loop
-        muted
-        playsinline
-        class="section-video"></video>
-    </section>
-
-    <section class="scroll-section" id="section-gif">
-      <img src="/videos/cat.gif" alt="cat gif" class="page-gif" />
-      cat dance yeah
-    </section>
-
-    <!-- drop new <section> blocks here as the page evolves -->
-  </div>
-
   <!-- ─── STYLES ────────────────────────────────────────────── -->
   <style is:global>
     /* === PAGE LAYOUT === */
@@ -52,37 +26,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       flex-direction: column;
       align-items: center;
       padding: 1rem 20px 80px;
-    }
-
-    /* === SUBTITLE + WORD CYCLE === */
-    .subtitle {
-      font-family: "IBM Plex Mono", monospace;
-      color: var(--text-primary);
-      font-size: 1rem;
-      max-width: 500px;
-      text-align: center;
-      margin: 0 0 2rem;
-      letter-spacing: 0.04em;
-    }
-    .word-cycle {
-      display: inline-block;
-      cursor: default;
-    }
-    .word-inner {
-      display: inline-block;
-      padding: 1px 6px;
-      border-radius: 3px;
-      transition:
-        opacity 0.18s ease,
-        transform 0.18s ease;
-    }
-    .word-inner.green {
-      background: #22c55e;
-      color: black;
-    }
-    .word-inner.purple {
-      background: #c576f6;
-      color: black;
     }
 
     /* === COUNTER === */
@@ -243,32 +186,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       }
     }
 
-    /* === SCROLL SECTIONS === */
-    .scroll-sections {
-      width: 100%;
-    }
-    .scroll-section {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 4rem 2rem;
-    }
-
-    /* video section */
-    .section-video {
-      max-width: 300px;
-      width: 100%;
-      border-radius: 4px;
-    }
-
-    /* === GIF === */
-    .page-gif {
-      max-width: 400px;
-      width: 100%;
-      border-radius: 4px;
-    }
   </style>
 
   <!-- ─── SCRIPTS ───────────────────────────────────────────── -->
@@ -354,45 +271,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           }
         }
       }
-    });
-
-    // ── SUBTITLE WORD CYCLE ────────────────────────────────────
-    // Hover the subtitle word to cycle through labels with color accents
-
-    const wordCycle = document.querySelector(".word-cycle") as HTMLElement;
-    const wordInner = wordCycle.querySelector(".word-inner") as HTMLElement;
-    const cycleWords = ["blog", "portfolio", "experiment"];
-    const cycleClass: Record<string, string> = {
-      blog: "",
-      portfolio: "green",
-      experiment: "purple",
-    };
-    let cycleIdx = 0,
-      cycleTimer: ReturnType<typeof setInterval>;
-
-    function setCycleWord(i: number) {
-      wordInner.style.opacity = "0";
-      wordInner.style.transform = "translateY(-5px)";
-      setTimeout(() => {
-        wordInner.textContent = cycleWords[i];
-        wordInner.className =
-          "word-inner" +
-          (cycleClass[cycleWords[i]] ? " " + cycleClass[cycleWords[i]] : "");
-        wordInner.style.opacity = "1";
-        wordInner.style.transform = "translateY(0)";
-      }, 190);
-    }
-
-    wordCycle.addEventListener("mouseenter", () => {
-      cycleTimer = setInterval(() => {
-        cycleIdx = (cycleIdx + 1) % cycleWords.length;
-        setCycleWord(cycleIdx);
-      }, 750);
-    });
-    wordCycle.addEventListener("mouseleave", () => {
-      clearInterval(cycleTimer);
-      cycleIdx = 0;
-      setCycleWord(0);
     });
 
     // ── CELL INTERACTIONS (hover highlight + click to find) ────
