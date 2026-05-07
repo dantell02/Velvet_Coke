@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="About — Velvet Coke">
+  <main class="container">
+    <div class="left">
+      <img src="/images/dantell.jpg" alt="DANTELL" class="main-image" />
+      <p class="label">DANTELL</p>
+    </div>
+    <div class="right">
+      <p class="punch">A place to be. To exist freely.</p>
+      <p class="bio">
+        Velvet Coke is my universe. Music, photography, visual arts, writing...
+        this is where it all lives. An ever evolving archive, built entirely by
+        me.
+      </p>
+      <p>
+        <strong>Areas of interest:</strong><br />
+        Electronic Music<br />
+        Visual Arts<br />
+        Analog Photography<br />
+        Psychology
+      </p>
+      <p>
+        <strong>Contact:</strong><br />
+        velvetcokeeee@gmail.com
+      </p>
+    </div>
+  </main>
+
+  <style>
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      padding: 40px 20px 60px;
+    }
+    .left,
+    .right {
+      max-width: 400px;
+    }
+    .label {
+      text-align: center;
+    }
+    .main-image {
+      width: 300px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</BaseLayout>

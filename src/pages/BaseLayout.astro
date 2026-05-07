@@ -1,0 +1,321 @@
+---
+interface Props {
+  title?: string;
+}
+const { title = "Velvet Coke" } = Astro.props;
+
+const menuLinks = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/photography", label: "Photography" },
+  { href: "/music", label: "Music" },
+  { href: "/visual-arts", label: "Visual Arts" },
+  { href: "/blog", label: "Blog" },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <link rel="icon" type="image/png" href="/images/greenball.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Danfo&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dokdo&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sarina&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <button class="menu-btn" id="menu-btn" aria-label="Open menu">
+      <img src="/images/greenball.png" alt="" />
+    </button>
+
+    <div class="menu-overlay" id="menu-overlay">
+      <nav class="menu-nav">
+        {menuLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+      </nav>
+
+      <div class="menu-footer">
+        <button class="theme-btn" id="theme-btn" aria-label="Toggle dark mode">
+          <img id="theme-icon" src="/assets/moon.png" alt="theme toggle" />
+        </button>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <a href="/"><h1>VELVET COKE</h1></a>
+    </header>
+
+    <slot />
+
+    <style is:global>
+      /* ── GREY SCALE VARIABLES ──────────────────────────────────
+         These are the named grey levels used across the whole site.
+         Think of them like paint swatches that automatically swap
+         when you switch between dark and light mode.
+
+         --grey-hi:  most visible secondary text (labels, titles)
+         --grey-mid: medium text (subtitles, meta info)
+         --grey-lo:  quiet text (hints, placeholders)
+         --grey-dim: barely-there (borders, decorative lines)
+      */
+      :root {
+        --grey-hi:  #c0c0c0;
+        --grey-mid: #888;
+        --grey-lo:  #666;
+        --grey-dim: #3a3a3a;
+      }
+
+      /* In light mode, flip all greys to darker equivalents */
+      body.light {
+        --grey-hi:  #222;
+        --grey-mid: #555;
+        --grey-lo:  #777;
+        --grey-dim: #ccc;
+      }
+
+      body {
+        background: black;
+        color: white;
+        margin: 0;
+        font-family: sans-serif;
+        min-height: 100vh;
+      }
+      body.light {
+        background: white;
+        color: black;
+      }
+
+      .site-header {
+        text-align: center;
+        padding: 40px 20px 0;
+      }
+      .site-header a {
+        text-decoration: none;
+        color: inherit;
+      }
+      .site-header h1 {
+        font-family: "IBM Plex Mono", monospace;
+        letter-spacing: 0.05em;
+        margin: 0;
+        height: 80px;
+        line-height: 80px;
+        overflow: hidden;
+      }
+
+      .menu-btn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 100;
+        transition: transform 0.2s;
+      }
+      .menu-btn:hover {
+        transform: scale(1.15);
+      }
+      .menu-btn img {
+        width: 32px;
+        height: 32px;
+        display: block;
+      }
+
+      .menu-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.92);
+        backdrop-filter: blur(8px);
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 200;
+      }
+      .menu-overlay.show {
+        display: flex;
+      }
+
+      .menu-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+      }
+      .menu-nav a {
+        color: white;
+        text-decoration: none;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        letter-spacing: 0.1em;
+        transition: color 0.2s;
+      }
+      .menu-nav a:hover {
+        color: #c576f6;
+      }
+
+      .menu-footer {
+        margin-top: 1.5rem;
+        display: flex;
+        justify-content: center;
+      }
+      .theme-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        opacity: 0.5;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+      }
+      .theme-btn:hover {
+        opacity: 1;
+        transform: scale(1.15);
+      }
+      .theme-btn img {
+        width: 24px;
+        height: 24px;
+        display: block;
+      }
+    </style>
+
+    <script>
+      const menuBtn = document.getElementById("menu-btn");
+      const overlay = document.getElementById("menu-overlay");
+
+      menuBtn.addEventListener("click", () => overlay.classList.add("show"));
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) overlay.classList.remove("show");
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") overlay.classList.remove("show");
+      });
+
+      // ─── FONT BLITZ ─────────────────────────────────────────
+      const FONTS = [
+        "'Mea Culpa', cursive",
+        "'Cherry Bomb One', cursive",
+        "'Jacquard 12', serif",
+        "'IBM Plex Mono', monospace",
+        "'Bitcount Single', serif",
+        "'Big Shoulders Stencil', sans-serif",
+        "'Danfo', serif",
+        "'Dokdo', cursive",
+        "'Permanent Marker', cursive",
+        "'Sarina', cursive",
+      ];
+
+      const SETTLE_FONTS = [
+        "'IBM Plex Mono', monospace",
+        "'Mea Culpa', cursive",
+        "'Cherry Bomb One', cursive",
+        "'Jacquard 12', serif",
+        "'Bitcount Single', serif",
+        "'Danfo', serif",
+        "'Dokdo', cursive",
+        "'Permanent Marker', cursive",
+        "'Sarina', cursive",
+      ];
+
+      function pickSettleFont() {
+        return SETTLE_FONTS[Math.floor(Math.random() * SETTLE_FONTS.length)];
+      }
+
+      const SWAP_SPEED_MS = 175;
+      const ANIM_DURATION_MS = 2000;
+      const COOLDOWN_MS = 2000;
+      let onCooldown = false;
+
+      function triggerFontBlitz() {
+        if (onCooldown) return;
+        onCooldown = true;
+        const heading = document.querySelector(
+          ".site-header h1",
+        ) as HTMLElement;
+        const totalSwaps = Math.floor(ANIM_DURATION_MS / SWAP_SPEED_MS);
+        let swapCount = 0;
+        const flicker = setInterval(() => {
+          heading.style.fontFamily = FONTS[swapCount % FONTS.length];
+          swapCount++;
+          if (swapCount >= totalSwaps) {
+            clearInterval(flicker);
+            heading.style.fontFamily = pickSettleFont();
+            setTimeout(() => {
+              onCooldown = false;
+            }, COOLDOWN_MS);
+          }
+        }, SWAP_SPEED_MS);
+      }
+
+      window.addEventListener("scroll", triggerFontBlitz);
+      window.addEventListener("touchstart", triggerFontBlitz);
+      window.addEventListener("click", triggerFontBlitz);
+
+      // ─── DARK / LIGHT MODE ──────────────────────────────────
+      const themeBtn = document.getElementById("theme-btn") as HTMLElement;
+      const themeIcon = document.getElementById(
+        "theme-icon",
+      ) as HTMLImageElement;
+
+      if (localStorage.getItem("theme") === "light") applyLight();
+
+      themeBtn.addEventListener("click", () => {
+        document.body.classList.contains("light") ? applyDark() : applyLight();
+      });
+
+      function applyLight() {
+        document.body.classList.add("light");
+        themeIcon.src = "/assets/moon.png";
+        localStorage.setItem("theme", "light");
+      }
+      function applyDark() {
+        document.body.classList.remove("light");
+        themeIcon.src = "/assets/sun.png";
+        localStorage.setItem("theme", "dark");
+      }
+    </script>
+  </body>
+</html>

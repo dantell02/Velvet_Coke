@@ -1,0 +1,158 @@
+---
+const title = "Photography — Velvet Coke";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <link rel="icon" type="image/png" href="/images/greenball.png" />
+    <link rel="stylesheet" href="https:/fontlibrary.org//face/crass-roots-ofl" type="text/css" />
+    <link rel="stylesheet" href="https:/fonts.googleapis.com/css?family=IBM+Plex+Mono:wght@400;500&display=swap" />
+  </head>
+  <body>
+    <script is:inline>
+      if (localStorage.getItem("theme") === "light") {
+        document.body.classList.add("light");
+      }
+    </script>
+    <a href="/" class="home-link">← home</a>
+
+    <div class="split">
+      <a class="panel panel--analog" href="/photography/analog">
+        <div class="panel__content">
+          <span class="panel__label">ANALOG</span>
+          <span class="panel__sub">film / grain / light</span>
+        </div>
+      </a>
+
+      <div class="divider"></div>
+
+      <a class="panel panel--digital" href="/photography/digital">
+        <div class="panel__content">
+          <span class="panel__label">DIGITAL</span>
+          <span class="panel__sub">pixel / sharp / raw</span>
+        </div>
+      </a>
+    </div>
+
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+
+      body {
+        --text-primary: white;
+        --text-secondary: #aaa;
+        --text-muted: #777;
+        --border-color: #2a2a2a;
+        --bg-secondary: #111;
+        background: black;
+        color: white;
+        margin: 0;
+        font-family: 'IBM Plex Mono', monospace;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+      body.light {
+        --text-primary: black;
+        --text-secondary: #333;
+        --text-muted: #555;
+        --border-color: #ccc;
+        --bg-secondary: #f0f0f0;
+        background: white;
+        color: black;
+      }
+
+      .home-link {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-family: 'IBM Plex Mono', monospace;
+        z-index: 10;
+        transition: color 0.2s;
+      }
+      .home-link:hover { color: var(--text-primary); }
+
+      .split {
+        display: flex;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      .panel {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: var(--text-primary);
+        position: relative;
+        overflow: hidden;
+        transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .panel::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .panel--analog::before { background: rgba(34, 197, 94, 0.08); }
+      .panel--digital::before { background: rgba(197, 118, 246, 0.08); }
+
+      .split:has(.panel--analog:hover) .panel--analog,
+      .split:has(.panel--digital:hover) .panel--digital {
+        flex: 1.6;
+      }
+
+      .panel:hover::before { opacity: 1; }
+
+      .panel__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+        transition: transform 0.4s ease;
+        z-index: 1;
+      }
+
+      .panel:hover .panel__content { transform: scale(1.04); }
+
+      .panel__label {
+        font-family: 'CRASSROOTSOFLREG', sans-serif;
+        font-size: clamp(2.2rem, 6vw, 4rem);
+        letter-spacing: 0.08em;
+        transition: color 0.3s;
+      }
+
+      .panel--analog:hover .panel__label { color: #22c55e; }
+      .panel--digital:hover .panel__label { color: #C576F6; }
+
+      .panel__sub {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        letter-spacing: 0.15em;
+        transition: color 0.3s;
+      }
+
+      .panel:hover .panel__sub { color: var(--text-secondary); }
+
+      .divider {
+        width: 1px;
+        background: var(--bg-secondary);
+        align-self: stretch;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 2;
+        transition: background 0.3s;
+      }
+
+      .split:has(.panel:hover) .divider { background: var(--border-color); }
+    </style>
+  </body>
+</html>

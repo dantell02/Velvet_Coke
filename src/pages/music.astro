@@ -1,0 +1,206 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// ── ADD YOUR RELEASES HERE ─────────────────────────────────────
+// When you have more EPs/albums, just add another object to this array.
+const releases = [
+  {
+    slug: "jungian-psychology",
+    title: "Jungian Psychology",
+    year: "2026",
+    cover: "/images/Jungian_Psycology_Cover.jpeg",
+    type: "EP",
+  },
+];
+---
+
+<BaseLayout title="Music — Velvet Coke">
+  <div class="music-page">
+    <!-- ─── RELEASES ──────────────────────────────────────────── -->
+    <section class="music-section">
+      <div class="section-header">
+        <span class="section-label">RELEASES</span>
+      </div>
+
+      <div class="releases-grid">
+        {
+          releases.map((r) => (
+            <a href={`/music/${r.slug}`} class="release-card">
+              <div class="release-cover">
+                <img src={r.cover} alt={r.title} draggable="false" />
+              </div>
+              <div class="release-meta">
+                <span class="release-title">{r.title}</span>
+                <span class="release-sub">
+                  {r.year} · {r.type}
+                </span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ─── MIXES ─────────────────────────────────────────────── -->
+    <section class="music-section">
+      <div class="section-header">
+        <span class="section-label">MIXES</span>
+      </div>
+
+      <div class="mixes-empty">
+        <img src="/videos/cat.gif" alt="cat dancing" class="mixes-cat" />
+        <p class="empty-line">
+          <span class="empty-bracket">[</span>
+          <span class="empty-text">nothing here yet</span>
+          <span class="empty-bracket">]</span>
+        </p>
+        <p class="empty-sub">mixes incoming.</p>
+      </div>
+    </section>
+  </div>
+
+  <style>
+    .music-page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2rem 24px 80px;
+    }
+
+    /* === SECTIONS === */
+    .music-section {
+      padding: 2.5rem 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.75rem;
+    }
+
+    .section-label {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      color: var(--text-muted);
+    }
+
+    /* === RELEASES GRID ===
+       auto-fill: adds columns automatically as you add more releases.
+       Each card is between 200px and 260px wide.
+    */
+    .releases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 260px));
+      gap: 2rem 1.5rem;
+    }
+
+    /* === RELEASE CARD === */
+    .release-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Square cover — clips overflow so nothing bleeds out */
+    .release-cover {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: var(--bg-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .release-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition:
+        transform 0.4s ease,
+        filter 0.3s ease;
+    }
+
+    /* Hover: image dims + scales slightly */
+    .release-card:hover .release-cover img {
+      transform: scale(1.05);
+      filter: brightness(0.5);
+    }
+
+    /* Title + year below the cover */
+    .release-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .release-title {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+
+    .release-card:hover .release-title {
+      color: var(--text-primary);
+    }
+
+    .release-sub {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* === MIXES EMPTY STATE === */
+    .mixes-empty {
+      padding: 0.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .mixes-cat {
+      width: 260px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      margin-bottom: 0.5rem;
+      opacity: 0.75;
+    }
+
+    .empty-line {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.8rem;
+      margin: 0;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .empty-bracket {
+      color: var(--text-muted);
+    }
+    .empty-text {
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    .empty-sub {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin: 0;
+      letter-spacing: 0.06em;
+    }
+
+    /* === MOBILE === */
+    @media (max-width: 600px) {
+      .releases-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem 0.75rem;
+      }
+    }
+  </style>
+</BaseLayout>

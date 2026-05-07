@@ -1,0 +1,436 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const ep = {
+  title: "Jungian Psychology",
+  artist: "Dantell",
+  year: "2026",
+  type: "EP",
+  cover: "/images/Jungian_Psycology_Cover.jpeg",
+  description: `Rooted in the psychological teachings of Carl Gustav Jung, I am proud to present my debut EP, Jungian Psychology. Each track is conceived as a sonic interpretation of Jungian archetypes, translating theory into sound through electronic music. Rhythm becomes tension, texture becomes thought, and repetition mirrors the unconscious, shaping an auditory experience of the psyche in motion.
+
+This project emerged from a deep fascination with Jung's work — its balance between the scientific and the mystical, and its ability to give form to what lies beneath conscious awareness. That fascination evolved into a personal, reflective process, ultimately leading me to interpret these ideas in the way I know best, through sound. Jungian Psychology is my attempt to capture what these forces feel like, rather than simply what they represent.`,
+};
+
+// ── HOW TO GET YOUR TRACK SLUGS ───────────────────────────────
+// 1. Go to each track on SoundCloud
+// 2. Copy the URL — it looks like: soundcloud.com/dant3ll/introspection-intro
+// 3. Paste the full URL into the soundcloud field below
+// ─────────────────────────────────────────────────────────────
+const tracks = [
+  {
+    index: "00",
+    title: "Introspection",
+    archetype: "Intro",
+    note: "feat. John",
+    soundcloud: "https://soundcloud.com/dant3ll/introspection-intro-ft-mediathek-erhaben-1?in=dant3ll/sets/jungianpsycolog",
+    description:
+      "A collaborative piece with my good friend John. Built on dark ambient textures and eerie, immersive sound design, it functions as an entry point — inviting the listener inward and creating space for reflection. It prepares the ground for what follows, a gradual descent into deeper psychological territory.",
+  },
+  {
+    index: "01",
+    title: "Anima",
+    archetype: "The Unconscious Feminine",
+    note: null,
+    soundcloud: "https://soundcloud.com/dant3ll/anima-2?in=dant3ll/sets/jungianpsycolog",
+    description:
+      "The unconscious feminine aspect within the male psyche. Associated with emotion, intuition, sensitivity, and the inner world of feeling — it acts as a bridge to the unconscious. But its dark side is unstable and disorienting. Emotions turn overwhelming and irrational, pulling the psyche into shifting moods, blurred desires, and projections that feel real but aren't. Hypnotic, unsettling, eerie, and urgent.",
+  },
+  {
+    index: "02",
+    title: "Animus",
+    archetype: "The Unconscious Masculine",
+    note: null,
+    soundcloud: "https://soundcloud.com/dant3ll/animus-3?in=dant3ll/sets/jungianpsycolog",
+    description:
+      "The unconscious masculine aspect within the female psyche. It embodies logic, structure, assertiveness, and reason — emerging as a force of order and precision, structured, relentless, and exact. It drives the psyche through rigid patterns and calculated motion, where thought aligns into sharp, decisive forms and everything moves with mechanical intent. There is clarity in it, but also tension.",
+  },
+  {
+    index: "03",
+    title: "Shadow",
+    archetype: "The Repressed",
+    note: null,
+    soundcloud: "https://soundcloud.com/dant3ll/shadow-4?in=dant3ll/sets/jungianpsycolog",
+    description:
+      "The repressed, denied, or unrecognized parts of the personality. The Shadow moves quietly, rising from deeper layers of the psyche where things long buried begin to surface. It doesn't announce itself — it seeps in. Not chaotic, but inevitable. Like some ancient machine stirring beneath the surface, revealing parts of the self that come from the deep unknown.",
+  },
+  {
+    index: "04",
+    title: "The Self",
+    archetype: "Wholeness",
+    note: null,
+    soundcloud: "https://soundcloud.com/dant3ll/the-self-5?in=dant3ll/sets/jungianpsycolog",
+    description:
+      "The central archetype of wholeness and integration. The endpoint of individuation — the process of becoming a complete and balanced individual. The Self contains elements of all archetypes on a conscious level, each one filtered, rationalized, and digested. A soothing, reflective close. As Jung said: \"Man cannot live a meaningless life.\"",
+  },
+];
+
+// Builds the SoundCloud iframe src from a track URL
+function scEmbed(url: string) {
+  return `https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%2322c55e&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false`;
+}
+---
+
+<BaseLayout title={`${ep.title} — Velvet Coke`}>
+  <Fragment slot="head">
+    <meta name="description" content={`${ep.title} by ${ep.artist} — ${ep.type}, ${ep.year}`} />
+    <meta property="og:title" content={`${ep.title} — ${ep.artist}`} />
+    <meta property="og:description" content="A sonic interpretation of Jungian archetypes through electronic music." />
+    <meta property="og:image" content={ep.cover} />
+    <meta property="og:type" content="music.album" />
+    <meta property="music:musician" content={ep.artist} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${ep.title} — ${ep.artist}`} />
+    <meta name="twitter:image" content={ep.cover} />
+  </Fragment>
+
+  <div class="ep-page">
+
+    <!-- ─── BACK LINK ─────────────────────────────────────────── -->
+    <a href="/music" class="back-link">← music</a>
+
+    <!-- ─── HERO ──────────────────────────────────────────────── -->
+    <div class="hero">
+      <div class="hero-cover">
+        <img src={ep.cover} alt={ep.title} draggable="false" />
+      </div>
+
+      <div class="hero-info">
+        <p class="hero-artist">{ep.artist}</p>
+        <h1 class="hero-title">{ep.title}</h1>
+        <p class="hero-meta">{ep.year} · {ep.type} · {tracks.length} tracks</p>
+        <div class="hero-rule"></div>
+        <p class="hero-tagline">
+          Written & produced by Dantell<br />
+          Track 0 feat. John (Mediathek Erhaben)<br />
+          Cover by Dantell<br />
+        </p>
+      </div>
+    </div>
+
+    <!-- ─── DESCRIPTION ───────────────────────────────────────── -->
+    <section class="ep-description">
+      <span class="section-tag">about</span>
+      {ep.description.split("\n\n").map((para) => (
+        <p>{para}</p>
+      ))}
+    </section>
+
+    <!-- ─── TRACKLIST ─────────────────────────────────────────── -->
+    <section class="tracklist">
+      <span class="section-tag">tracklist</span>
+      <p class="tracklist-note">⚠ heads up — mastered loud. maybe turn it down a little.</p>
+
+      {tracks.map((track) => (
+        <div class="track">
+
+          <!-- Track header: index · title · archetype -->
+          <div class="track-header">
+            <span class="track-index">{track.index}</span>
+            <div class="track-title-block">
+              <span class="track-title">{track.title}</span>
+              {track.note && <span class="track-note">{track.note}</span>}
+            </div>
+            <span class="track-archetype">{track.archetype}</span>
+          </div>
+
+          <!-- Description -->
+          <p class="track-desc">{track.description}</p>
+
+          <!-- Per-track SoundCloud embed -->
+          <div class="track-player">
+            <iframe
+              width="100%"
+              height="100"
+              scrolling="no"
+              frameborder="no"
+              allow="autoplay"
+              src={scEmbed(track.soundcloud)}
+            ></iframe>
+          </div>
+
+        </div>
+      ))}
+    </section>
+
+    <!-- ─── COVER LIGHTBOX ────────────────────────────────────── -->
+    <div id="cover-lightbox" aria-hidden="true">
+      <img src={ep.cover} alt={ep.title} draggable="false" />
+    </div>
+
+  </div>
+
+  <style>
+    .ep-page {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 1.5rem 24px 100px;
+    }
+
+    /* === BACK LINK === */
+    .back-link {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--grey-lo);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      margin-bottom: 3rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: white; }
+    body.light .back-link:hover { color: black; }
+
+    /* === HERO === */
+    .hero {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 3rem;
+      align-items: start;
+      margin-bottom: 3.5rem;
+    }
+
+    .hero-cover {
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: #080808;
+    }
+    .hero-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+    .hero-cover img:hover {
+      opacity: 0.85;
+    }
+
+    /* === COVER LIGHTBOX === */
+    #cover-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.92);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    #cover-lightbox.open {
+      display: flex;
+    }
+    #cover-lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+    }
+
+    .hero-info {
+      padding-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .hero-artist {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: #22c55e;
+      letter-spacing: 0.18em;
+      margin: 0;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .hero-meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--grey-lo);
+      letter-spacing: 0.1em;
+      margin: 0;
+    }
+
+    .hero-rule {
+      width: 40px;
+      height: 1px;
+      background: var(--grey-dim);
+      margin: 0.75rem 0;
+    }
+
+    .hero-tagline {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--grey-mid);
+      font-style: italic;
+      margin: 0;
+      line-height: 1.6;
+    }
+    .tagline-attr {
+      display: block;
+      font-style: normal;
+      font-size: 0.62rem;
+      color: var(--grey-lo);
+      margin-top: 0.3rem;
+      letter-spacing: 0.08em;
+    }
+
+    /* === DESCRIPTION === */
+    .ep-description {
+      margin-bottom: 3rem;
+    }
+    .ep-description p {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.88rem;
+      line-height: 1.85;
+      color: var(--grey-hi);
+      margin: 0 0 1.2rem;
+      max-width: 68ch;
+    }
+
+    /* === SHARED SECTION TAG === */
+    .section-tag {
+      display: block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      color: var(--grey-lo);
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--grey-dim);
+    }
+
+    /* === TRACKLIST === */
+    .tracklist .section-tag {
+      font-size: 0.74rem;
+    }
+    .tracklist-note {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.82rem;
+      color: #c576f6;
+      letter-spacing: 0.04em;
+      margin: -0.5rem 0 1.5rem;
+    }
+
+    .track {
+      padding: 1.75rem 0;
+      border-bottom: 1px solid var(--grey-dim);
+    }
+
+    .track-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .track-index {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--grey-dim);
+      letter-spacing: 0.08em;
+      flex-shrink: 0;
+    }
+
+    .track-title-block {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      flex: 1;
+    }
+
+    .track-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+      color: white;
+      letter-spacing: 0.04em;
+    }
+    body.light .track-title { color: black; }
+
+    .track-note {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      color: #22c55e;
+      letter-spacing: 0.06em;
+    }
+
+    .track-archetype {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--grey-lo);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .track-desc {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.77rem;
+      line-height: 1.8;
+      color: var(--grey-mid);
+      margin: 0 0 1.25rem;
+      max-width: 70ch;
+      padding-left: calc(1rem + 1.5ch);
+    }
+
+    /* The player sits flush below the description */
+    .track-player {
+      padding-left: calc(1rem + 1.5ch);
+    }
+
+    .track-player iframe {
+      display: block;
+      border-radius: 2px;
+      /* height:60 gives the compact waveform-only bar */
+    }
+
+    /* === MOBILE === */
+    @media (max-width: 620px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .hero-cover { max-width: 240px; }
+      .track-archetype { display: none; }
+      .track-desc,
+      .track-player { padding-left: 0; }
+    }
+  </style>
+
+  <script>
+    const lightbox = document.getElementById("cover-lightbox") as HTMLElement;
+    const heroImg = document.querySelector(".hero-cover img") as HTMLElement;
+
+    function openLightbox() {
+      lightbox.classList.add("open");
+      lightbox.setAttribute("aria-hidden", "false");
+    }
+    function closeLightbox() {
+      lightbox.classList.remove("open");
+      lightbox.setAttribute("aria-hidden", "true");
+    }
+
+    heroImg.addEventListener("click", openLightbox);
+
+    // Close when clicking the dimmed background, but not the image itself
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && lightbox.classList.contains("open")) {
+        closeLightbox();
+      }
+    });
+  </script>
+</BaseLayout>

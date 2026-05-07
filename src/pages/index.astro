@@ -1,17 +1,441 @@
 ---
-
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="VELVET COKE">
+  <!-- ─── MAIN PAGE ─────────────────────────────────────────── -->
+  <div class="page">
+    <p class="subtitle">
+      — a multidisciplinary <span class="word-cycle"
+        ><span class="word-inner">blog</span></span
+      > —
+    </p>
+
+    <p class="counter"><strong>0</strong> / 8 discovered</p>
+
+    <!-- Grid left, discoveries panel right (stacks on mobile) -->
+    <div class="puzzle-wrapper">
+      <div class="puzzle-grid"></div>
+
+      <div class="discoveries-panel">
+        <p class="discoveries-label">DISCOVERED</p>
+        <div class="discoveries"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SCROLL SECTIONS ───────────────────────────────────── -->
+  <div class="scroll-sections">
+    <section class="scroll-section" id="section-video">
+      <video
+        src="/videos/teckdeck_pixelcrush.webm"
+        autoplay
+        loop
+        muted
+        playsinline
+        class="section-video"></video>
+    </section>
+
+    <section class="scroll-section" id="section-gif">
+      <img src="/videos/cat.gif" alt="cat gif" class="page-gif" />
+      cat dance yeah
+    </section>
+
+    <!-- drop new <section> blocks here as the page evolves -->
+  </div>
+
+  <!-- ─── STYLES ────────────────────────────────────────────── -->
+  <style is:global>
+    /* === PAGE LAYOUT === */
+    .page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem 20px 80px;
+    }
+
+    /* === SUBTITLE + WORD CYCLE === */
+    .subtitle {
+      font-family: "IBM Plex Mono", monospace;
+      color: var(--text-primary);
+      font-size: 1rem;
+      max-width: 500px;
+      text-align: center;
+      margin: 0 0 2rem;
+      letter-spacing: 0.04em;
+    }
+    .word-cycle {
+      display: inline-block;
+      cursor: default;
+    }
+    .word-inner {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 3px;
+      transition:
+        opacity 0.18s ease,
+        transform 0.18s ease;
+    }
+    .word-inner.green {
+      background: #22c55e;
+      color: black;
+    }
+    .word-inner.purple {
+      background: #c576f6;
+      color: black;
+    }
+
+    /* === COUNTER === */
+    .counter {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin: 0 0 1.5rem;
+    }
+    .counter strong {
+      color: #c576f6;
+      font-weight: normal;
+    }
+
+    /* === PUZZLE WRAPPER (grid + discoveries side by side) === */
+    .puzzle-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 2rem;
+    }
+
+    /* === WORD SEARCH GRID === */
+    .puzzle-grid {
+      display: grid;
+      grid-template-columns: repeat(15, clamp(1.2rem, 2.4vw, 1.8rem));
+      grid-auto-rows: clamp(1.2rem, 2.4vw, 1.8rem);
+      gap: 2px;
+      font-family: "IBM Plex Mono", monospace;
+      user-select: none;
+    }
+
+    /* === GRID CELLS === */
+    .cell {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-color);
+      color: #444;
+      font-size: clamp(0.6rem, 1.4vw, 0.95rem);
+      transition: all 0.15s ease;
+    }
+    .cell[data-word] {
+      color: #aaa;
+      cursor: pointer;
+    }
+    /* Light-mode inversion: random letters fade out, word letters get dark/visible */
+    body.light .cell { color: #bbb; }
+    body.light .cell[data-word] { color: #333; }
+    body.light .cell.hovered { color: black; }
+    body.light .cell.found { color: black; }
+    body.light .cell.initial.found { color: white; }
+    .cell.hovered {
+      background: rgba(197, 118, 246, 0.25);
+      color: white;
+      border-color: #c576f6;
+    }
+    .cell.found {
+      background: #c576f6;
+      color: black;
+      border-color: #c576f6;
+    }
+    .cell.initial.found {
+      background: #9333ea;
+      color: white;
+    }
+
+    /* green-coloured words (GREEN, CAN) */
+    .cell[data-word="green"].hovered,
+    .cell[data-word="can"].hovered {
+      background: rgba(74, 222, 128, 0.25);
+      border-color: #4ade80;
+    }
+    .cell[data-word="green"].found,
+    .cell[data-word="can"].found {
+      background: #4ade80;
+      border-color: #4ade80;
+    }
+    .cell[data-word="green"].initial.found,
+    .cell[data-word="can"].initial.found {
+      background: #16a34a;
+      color: white;
+    }
+
+    /* hover tooltip */
+    .cell::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 130%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #c576f6;
+      color: black;
+      padding: 4px 8px;
+      font-family: sans-serif;
+      font-size: 0.75rem;
+      opacity: 0;
+      pointer-events: none;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+      z-index: 10;
+    }
+    .cell[data-tooltip]:hover::after {
+      opacity: 1;
+    }
+    .cell[data-word="green"]::after,
+    .cell[data-word="can"]::after {
+      background: #4ade80;
+    }
+
+    /* === DISCOVERIES PANEL === */
+    .discoveries-panel {
+      min-width: 180px;
+      max-width: 220px;
+    }
+    .discoveries-label {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin: 0 0 0.75rem;
+    }
+    .discoveries {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      min-height: 3rem;
+    }
+    .discovery {
+      margin: 0.4rem 0;
+      opacity: 0;
+      animation: fadeIn 0.4s ease forwards;
+    }
+    .discovery .word {
+      color: #c576f6;
+    }
+    .discovery .word.word-green {
+      color: #4ade80;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* === MOBILE: stack grid and discoveries vertically === */
+    @media (max-width: 700px) {
+      .puzzle-wrapper {
+        flex-direction: column;
+        align-items: center;
+      }
+      .discoveries-panel {
+        max-width: 100%;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    /* === SCROLL SECTIONS === */
+    .scroll-sections {
+      width: 100%;
+    }
+    .scroll-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+    }
+
+    /* video section */
+    .section-video {
+      max-width: 300px;
+      width: 100%;
+      border-radius: 4px;
+    }
+
+    /* === GIF === */
+    .page-gif {
+      max-width: 400px;
+      width: 100%;
+      border-radius: 4px;
+    }
+  </style>
+
+  <!-- ─── SCRIPTS ───────────────────────────────────────────── -->
+  <script>
+    // ── WORD SEARCH SETUP ──────────────────────────────────────
+
+    const PUZZLE = [
+      "ISTANBULQPURPLE",
+      "ZKWFXJVQMYHZBKW",
+      "XQPRZCYVKHMFTJL",
+      "MKQGZXFDWVYJCRB",
+      "UQZRFKWAXJLVBPY",
+      "NVFEWBJNQKXZMHC",
+      "IXKEQZBTVWFJPRY",
+      "CZVNHKMEQXWBJFL",
+      "HQKFZWXLVYBMJCP",
+      "ZVMJKYFLQXCBWHK",
+      "FKJZWQVXBMYJKCQ",
+      "ZMUSICKXVFJQBAW",
+      "QKFXZWVJBQMYKNZ",
+      "VBKZMDANTEQXFJW",
+      "XJQWZKBFMVYCHQZ",
+    ];
+
+    // Each word has a hint tooltip shown on hover
+    const WORDS = [
+      { w: "istanbul", t: "Where I am from" },
+      { w: "munich", t: "Where I am right now" },
+      { w: "music", t: "My predominant hobby" },
+      { w: "green", t: "My favorite color" },
+      { w: "purple", t: "My favorite color" },
+      { w: "dantell", t: "My nickname" },
+      { w: "dante", t: "My cat's name" },
+      { w: "can", t: "My name" },
+    ];
+
+    const DIRS = [
+      [0, 1],
+      [1, 0],
+    ]; // horizontal, vertical only
+    const N = 15;
+
+    const gridEl = document.querySelector(".puzzle-grid") as HTMLElement;
+    const counterEl = document.querySelector(".counter strong") as HTMLElement;
+    const discoveriesEl = document.querySelector(".discoveries") as HTMLElement;
+
+    // Build the visual grid from the PUZZLE rows
+    const grid = Array.from({ length: N }, () => [] as HTMLElement[]);
+    PUZZLE.forEach((row, r) => {
+      for (let c = 0; c < N; c++) {
+        const span = document.createElement("span");
+        span.className = "cell";
+        span.textContent = row[c];
+        gridEl.appendChild(span);
+        grid[r][c] = span;
+      }
+    });
+
+    // Tag each cell that belongs to a hidden word
+    WORDS.forEach(({ w, t }) => {
+      const lw = w.toLowerCase();
+      outer: for (let r = 0; r < N; r++) {
+        for (let c = 0; c < N; c++) {
+          for (const [dr, dc] of DIRS) {
+            const path: HTMLElement[] = [];
+            for (let k = 0; k < lw.length; k++) {
+              const rr = r + dr * k,
+                cc = c + dc * k;
+              if (rr < 0 || rr >= N || cc < 0 || cc >= N) break;
+              const cell = grid[rr][cc];
+              if (cell.textContent!.toLowerCase() !== lw[k]) break;
+              path.push(cell);
+            }
+            if (path.length === lw.length) {
+              if (path.some((cell) => cell.dataset.word)) continue;
+              path.forEach((cell) => {
+                cell.dataset.word = lw;
+                cell.dataset.tooltip = t;
+              });
+              path[0].classList.add("initial");
+              break outer;
+            }
+          }
+        }
+      }
+    });
+
+    // ── SUBTITLE WORD CYCLE ────────────────────────────────────
+    // Hover the subtitle word to cycle through labels with color accents
+
+    const wordCycle = document.querySelector(".word-cycle") as HTMLElement;
+    const wordInner = wordCycle.querySelector(".word-inner") as HTMLElement;
+    const cycleWords = ["blog", "portfolio", "experiment"];
+    const cycleClass: Record<string, string> = {
+      blog: "",
+      portfolio: "green",
+      experiment: "purple",
+    };
+    let cycleIdx = 0,
+      cycleTimer: ReturnType<typeof setInterval>;
+
+    function setCycleWord(i: number) {
+      wordInner.style.opacity = "0";
+      wordInner.style.transform = "translateY(-5px)";
+      setTimeout(() => {
+        wordInner.textContent = cycleWords[i];
+        wordInner.className =
+          "word-inner" +
+          (cycleClass[cycleWords[i]] ? " " + cycleClass[cycleWords[i]] : "");
+        wordInner.style.opacity = "1";
+        wordInner.style.transform = "translateY(0)";
+      }, 190);
+    }
+
+    wordCycle.addEventListener("mouseenter", () => {
+      cycleTimer = setInterval(() => {
+        cycleIdx = (cycleIdx + 1) % cycleWords.length;
+        setCycleWord(cycleIdx);
+      }, 750);
+    });
+    wordCycle.addEventListener("mouseleave", () => {
+      clearInterval(cycleTimer);
+      cycleIdx = 0;
+      setCycleWord(0);
+    });
+
+    // ── CELL INTERACTIONS (hover highlight + click to find) ────
+
+    const found = new Set<string>();
+
+    document.querySelectorAll(".cell[data-word]").forEach((cell) => {
+      const el = cell as HTMLElement;
+      const key = el.dataset.word!;
+
+      // highlight all cells of the same word on hover
+      el.addEventListener("mouseenter", () => {
+        if (found.has(key)) return;
+        document
+          .querySelectorAll(`.cell[data-word="${key}"]`)
+          .forEach((c) => c.classList.add("hovered"));
+      });
+      el.addEventListener("mouseleave", () => {
+        document
+          .querySelectorAll(`.cell[data-word="${key}"]`)
+          .forEach((c) => c.classList.remove("hovered"));
+      });
+
+      // clicking a word marks it as found and logs it in the panel
+      el.addEventListener("click", () => {
+        if (found.has(key)) return;
+        found.add(key);
+
+        document.querySelectorAll(`.cell[data-word="${key}"]`).forEach((c) => {
+          c.classList.add("found");
+          c.classList.remove("hovered");
+        });
+
+        counterEl.textContent = String(found.size);
+
+        const wordObj = WORDS.find((x) => x.w === key)!;
+        const div = document.createElement("div");
+        div.className = "discovery";
+        div.innerHTML = `<span class="word${
+          key === "green" || key === "can" ? " word-green" : ""
+        }">${key.toUpperCase()}</span> — ${wordObj.t}`;
+        discoveriesEl.appendChild(div);
+      });
+    });
+  </script>
+</BaseLayout>
