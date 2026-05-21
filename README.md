@@ -1,43 +1,72 @@
-# Astro Starter Kit: Minimal
+# Velvet Coke
 
-```sh
-npm create astro@latest -- --template minimal
+Personal portfolio of Dantell — a multidisciplinary creative site spanning photography, music, and visual work.
+
+**Live:** [velvetcoke.com](https://velvetcoke.com)
+
+---
+
+## What this is
+
+Velvet Coke is a personal portfolio site built with [Astro](https://astro.build) and hosted on [Vercel](https://vercel.com). It serves as a home for analog photography, music, and other creative output — built with the same intentionality as the work it presents.
+
+---
+
+## Stack
+
+| Layer | Tool |
+|---|---|
+| Framework | [Astro](https://astro.build) |
+| Hosting | Vercel |
+| Music embeds | SoundCloud |
+| Fonts | IBM Plex Mono (primary) |
+| Styling | Custom CSS with dark/light toggle |
+
+---
+
+## Design
+
+- **Dark-first aesthetic** — black background, purple and green accents
+- **Font blitz animation** — scroll/touch/click-triggered, weighted random font cycling that settles on IBM Plex Mono
+- **Analog photography grid** — 4-column layout inspired by Sol LeWitt, with lightbox and keyboard navigation
+- **Dark/light toggle** — switchable theme
+- **Scrollable homepage** with video section
+
+---
+
+## Project structure
+
 ```
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
 /
-├── public/
+├── public/             # Static assets (images, fonts, etc.)
 ├── src/
+│   ├── components/     # Reusable Astro components
+│   ├── layouts/
+│   │   └── BaseLayout.astro
 │   └── pages/
 │       └── index.astro
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+---
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Local development
 
-Any static assets, like images, can be placed in the `public/` directory.
+```bash
+npm install       # Install dependencies
+npm run dev       # Start dev server at localhost:4321
+npm run build     # Build for production → ./dist/
+npm run preview   # Preview production build locally
+```
 
-## 🧞 Commands
+---
 
-All commands are run from the root of the project, from a terminal:
+## Deployment
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Deployed automatically to Vercel on push to `main`.
 
-## 👀 Want to learn more?
+---
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## License
+
+Personal work. Not open for reuse without permission.
