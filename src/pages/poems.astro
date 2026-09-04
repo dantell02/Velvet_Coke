@@ -1,0 +1,150 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// ── ADD YOUR POEMS HERE ─────────────────────────────────────────
+// Each poem is { title, date, body }. body uses \n for line breaks.
+const poems: { title: string; date: string; body: string }[] = [];
+---
+
+<BaseLayout title="Poems — Velvet Coke">
+    <div class="poems-page">
+        <section class="poems-section">
+            <div class="section-header">
+                <span class="section-label">POEMS</span>
+            </div>
+
+            {
+                poems.length > 0 ? (
+                    <div class="poems-list">
+                        {poems.map((poem) => (
+                            <article class="poem">
+                                <div class="poem-meta">
+                                    <span class="poem-title">{poem.title}</span>
+                                    <span class="poem-date">{poem.date}</span>
+                                </div>
+                                <p class="poem-body">{poem.body}</p>
+                            </article>
+                        ))}
+                    </div>
+                ) : (
+                    <div class="poems-empty">
+                        <img
+                            src="/videos/cat.gif"
+                            alt="cat dancing"
+                            class="poems-cat"
+                        />
+                        <p class="empty-line">
+                            <span class="empty-bracket">[</span>
+                            <span class="empty-text">nothing here yet</span>
+                            <span class="empty-bracket">]</span>
+                        </p>
+                        <p class="empty-sub">poems incoming.</p>
+                    </div>
+                )
+            }
+        </section>
+    </div>
+
+    <style>
+        .poems-page {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 2rem 24px 80px;
+        }
+
+        .poems-section {
+            padding: 2.5rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+
+        .section-label {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.22em;
+            color: var(--text-muted);
+        }
+
+        /* === POEMS LIST === */
+        .poems-list {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .poem-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.75rem;
+        }
+
+        .poem-title {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.9rem;
+            letter-spacing: 0.06em;
+            color: var(--text-primary);
+        }
+
+        .poem-date {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+        }
+
+        .poem-body {
+            white-space: pre-line;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* === EMPTY STATE === */
+        .poems-empty {
+            padding: 0.5rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .poems-cat {
+            width: 260px;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            margin-bottom: 0.5rem;
+            opacity: 0.75;
+        }
+
+        .empty-line {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.8rem;
+            margin: 0;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .empty-bracket {
+            color: var(--text-muted);
+        }
+        .empty-text {
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+        }
+
+        .empty-sub {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin: 0;
+            letter-spacing: 0.06em;
+        }
+    </style>
+</BaseLayout>
